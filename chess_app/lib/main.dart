@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,7 +41,7 @@ class MyChessGame extends StatelessWidget {
 }
 
 class ChessBoard extends StatelessWidget {
-  const ChessBoard({Key? key}) : super(key: key);
+  ChessBoard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,51 +66,28 @@ class ChessBoard extends StatelessWidget {
   }
 
   Widget _buildSquare(int row, int col) {
-  Color lightColor = const Color.fromARGB(255, 255, 242, 211);
-  Color darkColor = const Color.fromARGB(255, 26, 159, 66);
-  Color color = (row + col) % 2 == 0 ? lightColor : darkColor!;
-  return Expanded(
-    child: Container(
-      color: color,
-      child: InkWell(
-        onTap: () {
-          // Add functionality for tapping squares here
-          print('Clicked square: ${String.fromCharCode(col + 97)}${8 - row}');
-        },
-        child: DragTarget<ChessPiece>(
-          builder: (context, candidateData, rejectedData) {
-            // Return an empty Container if no piece is present, otherwise return the piece
-            return _getPieceAtPositon(row, col) ?? Container();
-          },
-          onWillAccept: (data) {
-            return true;
-          },
-          onAccept: (data) {
-            setState(() {
-              data!.position = Position(row, col);
-            });
+    Color lightColor = const Color.fromARGB(255, 255, 242, 211);
+    Color darkColor = const Color.fromARGB(255, 26, 159, 66);
+    Color color = (row + col) % 2 == 0 ? lightColor : darkColor!;
+    
+    // Ensure the list has enough elements before accessing
+    if (row < 0 || row >= 8 || col < 0 || col >= 8) {
+      return Container(); // Return an empty container if the indices are out of bounds
+    }
+    
+    return Expanded(
+      child: Container(
+        color: color,
+        child: InkWell(
+          onTap: () {
+            // Add functionality for tapping squares here
+            print('Clicked square: ${String.fromCharCode(col + 97)}${8 - row}');
           },
         ),
       ),
-    ),
-  );
-}
-
-
-  Widget _getPieceAtPositon(int row, int col) {
-    ChessPiece? piece = pieces.firstWhere((p) => p.position.row == row && p.position.col == col);
-    if (piece != null){
-      return Draggable<ChessPiece>(
-        data: piece,
-        child: _buildPiece(piece),
-        feedback: _buildPiece(piece),
-        childWhenDragging: Container(),
-      );
-    }
-    else {
-      return Container();
-    }
+    );
   }
+
   Widget _buildPiece(ChessPiece piece) {
     return Text(
       piece.type.toString().substring(10), // Display piece type
@@ -122,36 +97,50 @@ class ChessBoard extends StatelessWidget {
       ),
     );
   }
- 
-  List<ChessPiece> pieces = [
-    // white's pieces
-    // pawns
-    ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,0)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,1)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,2)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,3)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,4)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,5)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,6)),
-    ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,7)),
-  ];
-  
-  void setState(Null Function() param0) {}
 }
- class ChessPiece {
-    final PieceType type;
-    final PieceColor color;
-    final Position position;
 
-    ChessPiece({required this.type, required this.color, required this.position});
-  }
+List<ChessPiece> pieces = [
+  // white's pieces
+  // pawns
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,0)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,1)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,2)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,3)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,4)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,5)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,6)),
+  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(1,7)),
+  // rooks
+  ChessPiece(type: PieceType.rook, color: PieceColor.white, position: Position(0,0)),
+  ChessPiece(type: PieceType.rook, color: PieceColor.white, position: Position(0,7)),
+  // knights
+  ChessPiece(type: PieceType.knight, color: PieceColor.white, position: Position(0,1)),
+  ChessPiece(type: PieceType.knight, color: PieceColor.white, position: Position(0,6)),
+  // bishops
+  ChessPiece(type: PieceType.bishop, color: PieceColor.white, position: Position(0,2)),
+  ChessPiece(type: PieceType.bishop, color: PieceColor.white, position: Position(0,5)),
+  // king
+  ChessPiece(type: PieceType.king, color: PieceColor.white, position: Position(0,3)),
+  // queen
+  ChessPiece(type: PieceType.queen, color: PieceColor.white, position: Position(0,4)),
+];
+
+void setState(Null Function() param0) {}
+
+class ChessPiece {
+  final PieceType type;
+  final PieceColor color;
+  final Position position;
+
+  ChessPiece({required this.type, required this.color, required this.position});
+}
+
+class Position {
+  final int row;
+  final int col;
   
-  class Position {
-    final int row;
-    final int col;
-    
-    Position(this.row, this.col);
-  }
+  Position(this.row, this.col);
+}
 
 enum PieceType {
   pawn,
