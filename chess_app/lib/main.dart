@@ -131,9 +131,9 @@ List<ChessPiece> pieces = [
   ChessPiece(type: PieceType.bishop, color: PieceColor.black, position: Position(0,2)),
   ChessPiece(type: PieceType.bishop, color: PieceColor.black, position: Position(0,5)),
   // king
-  ChessPiece(type: PieceType.king, color: PieceColor.black, position: Position(0,3)),
+  ChessPiece(type: PieceType.king, color: PieceColor.black, position: Position(0,4)),
   // queen
-  ChessPiece(type: PieceType.queen, color: PieceColor.black, position: Position(0,4)),
+  ChessPiece(type: PieceType.queen, color: PieceColor.black, position: Position(0,3)),
   // white's pieces
   // pawns
   ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,0)),
@@ -154,9 +154,9 @@ List<ChessPiece> pieces = [
   ChessPiece(type: PieceType.bishop, color: PieceColor.white, position: Position(7,2)),
   ChessPiece(type: PieceType.bishop, color: PieceColor.white, position: Position(7,5)),
   // king
-  ChessPiece(type: PieceType.king, color: PieceColor.white, position: Position(7,3)),
+  ChessPiece(type: PieceType.king, color: PieceColor.white, position: Position(7,4)),
   // queen
-  ChessPiece(type: PieceType.queen, color: PieceColor.white, position: Position(7,4)),
+  ChessPiece(type: PieceType.queen, color: PieceColor.white, position: Position(7,3)),
 ];
 
 void setState(Null Function() param0) {}
