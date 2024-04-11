@@ -59,20 +59,21 @@ flutter:
   uses-material-design: true
 
   assets:
-  - assets/black-bishop.png
-  - assets/black-king.png
-  - assets/black-knight.png
-  - assets/black-pawn.png
-  - assets/black-queen.png
-  - assets/black-rook.png
-  - assets/black-bishop.png
-  - assets/white-bishop.png
-  - assets/white-king.png
-  - assets/white-knight.png
-  - assets/white-pawn.png
-  - assets/white-queen.png
-  - assets/white-rook.png
-  - assets/white-bishop.png
+    - assets/
+  # - assets/black-bishop.png
+  # - assets/black-king.png
+  # - assets/black-knight.png
+  # - assets/black-pawn.png
+  # - assets/black-queen.png
+  # - assets/black-rook.png
+  # - assets/black-bishop.png
+  # - assets/white-bishop.png
+  # - assets/white-king.png
+  # - assets/white-knight.png
+  # - assets/white-pawn.png
+  # - assets/white-queen.png
+  # - assets/white-rook.png
+  # - assets/white-bishop.png
   
 
   # To add assets to your application, add an assets section, like this:
