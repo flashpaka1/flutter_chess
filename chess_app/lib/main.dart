@@ -192,5 +192,3 @@ List<ChessPiece> pieces = [
   // queen
   ChessPiece(type: PieceType.queen, color: PieceColor.white, position: Position(7,3)),
 ];
-
-void setState(Null Function() param0) {}
