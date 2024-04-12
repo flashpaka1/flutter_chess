@@ -1,3 +1,5 @@
+import 'package:chess_app/chess_piece.dart';
+import 'package:chess_app/position.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -40,14 +42,19 @@ class MyChessGame extends StatelessWidget {
   }
 }
 
-class ChessBoard extends StatelessWidget {
+class ChessBoard extends StatefulWidget {
   ChessBoard({Key? key}) : super(key: key);
 
   @override
+  State<ChessBoard> createState() => _ChessBoardState();
+}
+
+class _ChessBoardState extends State<ChessBoard> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300, // Adjust as needed
-      height: 300, // Adjust as needed
+      width: 300,
+      height: 300,
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromARGB(255, 26, 159, 66), width: 2),
       ),
@@ -69,17 +76,45 @@ class ChessBoard extends StatelessWidget {
       Color lightColor = const Color.fromARGB(255, 255, 242, 211);
       Color darkColor = const Color.fromARGB(255, 26, 159, 66);
       Color color = (row + col) % 2 == 0 ? lightColor : darkColor;
-
       ChessPiece? piece = _findPieceForPosition(row, col);
 
       return Expanded(
-        child: Container(
-          color: color,
-          child: InkWell(
-            onTap: () {
-              print('Clicked square: ${String.fromCharCode(col + 97)}${8 - row}');
-            },
-            child: piece != null ? _buildPiece(piece) : null,
+        child: DragTarget<ChessPiece>(
+          onWillAccept: (ChessPiece? incomingPiece) {
+            // TODO add conditions when piece can be moved to this square
+            return true;
+          },
+          onAccept: (movedPiece) {
+             setState(() {
+              // First, remove the piece from its old position
+              // pieces.removeWhere((p) => p.position.row == movedPiece.position.row && p.position.col == movedPiece.position.col);
+              // Update the piece's position
+              movedPiece.position = Position(row, col);
+              // Add it back to the list with the updated position
+              // pieces.add(movedPiece);
+            });
+            print("Want to move to $row $col");
+            print("Moved ${movedPiece.color} piece to ${movedPiece.position.row}, ${movedPiece.position.col}");
+          },
+          builder: (context, candidateData, rejectedData) => Container(
+            color: color,
+            child: piece == null ? null : Draggable<ChessPiece>(
+              data: piece,
+              feedback: Transform.scale(
+                scale: 0.75,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: Opacity(
+                    opacity: 1,
+                    child: _buildPiece(piece),
+                  ),
+                ),
+              ),
+              childWhenDragging: Container(),
+              child: _buildPiece(piece),
+            ),
           ),
         ),
       );
@@ -98,14 +133,13 @@ class ChessBoard extends StatelessWidget {
       String imagePath = _getImagePath(piece);
       return Image.asset(
         imagePath,
-        fit: BoxFit.cover, // Make sure the images fit well in the squares
+        fit: BoxFit.cover,
       );
     }
 
     String _getImagePath(ChessPiece piece) {
       String color = piece.color == PieceColor.white ? 'white' : 'black';
       String typeName = piece.type.toString().split('.').last;
-      // Ensure your asset names are correct and match the file names in the assets folder.
       return 'assets/$color-$typeName.png';
     }
 }
@@ -160,32 +194,3 @@ List<ChessPiece> pieces = [
 ];
 
 void setState(Null Function() param0) {}
-
-class ChessPiece {
-  final PieceType type;
-  final PieceColor color;
-  final Position position;
-
-  ChessPiece({required this.type, required this.color, required this.position});
-}
-
-class Position {
-  final int row;
-  final int col;
-  
-  Position(this.row, this.col);
-}
-
-enum PieceType {
-  pawn,
-  bishop,
-  knight,
-  rook,
-  queen,
-  king
-}
-
-enum PieceColor {
-  white,
-  black
-}
