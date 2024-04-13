@@ -1,6 +1,10 @@
 import 'package:chess_app/chess_piece.dart';
+import 'package:chess_app/game_engine.dart';
 import 'package:chess_app/position.dart';
 import 'package:flutter/material.dart';
+import 'package:chess_app/chess_pieces.dart';
+
+Game engine = Game();
 
 void main() {
   runApp(const MyApp());
@@ -81,20 +85,13 @@ class _ChessBoardState extends State<ChessBoard> {
       return Expanded(
         child: DragTarget<ChessPiece>(
           onWillAccept: (ChessPiece? incomingPiece) {
-            // TODO add conditions when piece can be moved to this square
-            return true;
+            Position incomingPosition = Position(row, col);
+            return engine.determine_move(incomingPiece!, incomingPosition);
           },
           onAccept: (movedPiece) {
              setState(() {
-              // First, remove the piece from its old position
-              // pieces.removeWhere((p) => p.position.row == movedPiece.position.row && p.position.col == movedPiece.position.col);
-              // Update the piece's position
               movedPiece.position = Position(row, col);
-              // Add it back to the list with the updated position
-              // pieces.add(movedPiece);
             });
-            print("Want to move to $row $col");
-            print("Moved ${movedPiece.color} piece to ${movedPiece.position.row}, ${movedPiece.position.col}");
           },
           builder: (context, candidateData, rejectedData) => Container(
             color: color,
@@ -143,52 +140,3 @@ class _ChessBoardState extends State<ChessBoard> {
       return 'assets/$color-$typeName.png';
     }
 }
-
-List<ChessPiece> pieces = [
-  // black's pieces
-  // pawns
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,0)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,1)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,2)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,3)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,4)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,5)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,6)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.black, position: Position(1,7)),
-  // rooks
-  ChessPiece(type: PieceType.rook, color: PieceColor.black, position: Position(0,0)),
-  ChessPiece(type: PieceType.rook, color: PieceColor.black, position: Position(0,7)),
-  // knights
-  ChessPiece(type: PieceType.knight, color: PieceColor.black, position: Position(0,1)),
-  ChessPiece(type: PieceType.knight, color: PieceColor.black, position: Position(0,6)),
-  // bishops
-  ChessPiece(type: PieceType.bishop, color: PieceColor.black, position: Position(0,2)),
-  ChessPiece(type: PieceType.bishop, color: PieceColor.black, position: Position(0,5)),
-  // king
-  ChessPiece(type: PieceType.king, color: PieceColor.black, position: Position(0,4)),
-  // queen
-  ChessPiece(type: PieceType.queen, color: PieceColor.black, position: Position(0,3)),
-  // white's pieces
-  // pawns
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,0)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,1)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,2)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,3)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,4)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,5)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,6)),
-  ChessPiece(type: PieceType.pawn, color: PieceColor.white, position: Position(6,7)),
-  // rooks
-  ChessPiece(type: PieceType.rook, color: PieceColor.white, position: Position(7,0)),
-  ChessPiece(type: PieceType.rook, color: PieceColor.white, position: Position(7,7)),
-  // knights
-  ChessPiece(type: PieceType.knight, color: PieceColor.white, position: Position(7,1)),
-  ChessPiece(type: PieceType.knight, color: PieceColor.white, position: Position(7,6)),
-  // bishops
-  ChessPiece(type: PieceType.bishop, color: PieceColor.white, position: Position(7,2)),
-  ChessPiece(type: PieceType.bishop, color: PieceColor.white, position: Position(7,5)),
-  // king
-  ChessPiece(type: PieceType.king, color: PieceColor.white, position: Position(7,4)),
-  // queen
-  ChessPiece(type: PieceType.queen, color: PieceColor.white, position: Position(7,3)),
-];
