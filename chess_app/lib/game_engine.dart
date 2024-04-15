@@ -4,7 +4,7 @@ import "package:chess_app/position.dart";
 
 class Game {
   PieceColor? userTurn;
-  int? turn;
+  int turn = 0;
   bool? check;
   bool? checkmate;
 
@@ -16,11 +16,25 @@ class Game {
   }
 
   bool determine_move(ChessPiece movedPiece, Position position){
-    if (movedPiece.color == userTurn){
-      if (movedPiece.type == PieceType.bishop) return isBishopValid(movedPiece, position);
-      if (movedPiece.type == PieceType.pawn) return isPawnValid(movedPiece, position);
+    if (movedPiece.color != userTurn) return false;
+    
+    switch (movedPiece.type) {
+      case PieceType.bishop:
+        print("gets bishop");
+        return isBishopValid(movedPiece, position);
+      case PieceType.pawn:
+        return isPawnValid(movedPiece, position);
+      case PieceType.rook:
+        print("gets rook");
+        return isRookValid(movedPiece, position);
+      case PieceType.knight:
+        return isKnightValid(movedPiece, position);
+      case PieceType.queen:
+        print("gets queen");
+        return isQueenValid(movedPiece, position);
+      default:
+        return false;
     }
-    return false;
   }
 
   bool? getCheckMate(){
@@ -28,5 +42,15 @@ class Game {
   }
   void setCheckMate(bool checkmate){
     this.checkmate = checkmate;
+  }
+
+  void toggleTurn(){
+    if (userTurn == PieceColor.white){
+      userTurn = PieceColor.black;
+    } 
+    if (userTurn == PieceColor.black){
+      userTurn = PieceColor.white;
+      turn++;
+    }
   }
 }

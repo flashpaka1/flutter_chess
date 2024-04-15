@@ -91,6 +91,7 @@ class _ChessBoardState extends State<ChessBoard> {
           onAccept: (movedPiece) {
              setState(() {
               movedPiece.position = Position(row, col);
+              engine.toggleTurn();
             });
           },
           builder: (context, candidateData, rejectedData) => Container(
