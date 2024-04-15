@@ -3,6 +3,7 @@ import 'package:chess_app/game_engine.dart';
 import 'package:chess_app/position.dart';
 import 'package:flutter/material.dart';
 import 'package:chess_app/chess_pieces.dart';
+import 'package:chess_app/pages/login_page.dart';
 
 Game engine = Game();
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyChessGame(),
+      home: const LoginPage(),//const MyChessGame(),
     );
   }
 }
