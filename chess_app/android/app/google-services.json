@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "330878038421",
+    "project_id": "mobilechess-a8776",
+    "storage_bucket": "mobilechess-a8776.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330878038421:android:b7e5b30cd405b09c76c69c",
+        "android_client_info": {
+          "package_name": "com.example.chess_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYNE5um8R0OWOfXGIgsm2nRYAfzoa5D4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
