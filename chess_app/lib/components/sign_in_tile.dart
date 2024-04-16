@@ -1,7 +1,9 @@
+import 'package:chess_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class SquareTile extends StatelessWidget{
   final String imagePath;
+  
   const SquareTile({
     super.key,
     required this.imagePath,
@@ -9,7 +11,11 @@ class SquareTile extends StatelessWidget{
 
   @override 
   Widget build(BuildContext context){
-    return Container(
+    return GestureDetector(
+      onTap:() => {
+        AuthService().signInWithGoogle()
+      },
+      child:Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
@@ -17,6 +23,6 @@ class SquareTile extends StatelessWidget{
         color: Colors.grey[300]
       ),
       child: Image.asset(imagePath, height: 40,),
-    );
+    )); 
   }
 }
