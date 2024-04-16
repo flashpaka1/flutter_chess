@@ -1,5 +1,6 @@
 import "package:chess_app/chess_piece.dart";
 import 'package:chess_app/chess_methods.dart';
+import "package:chess_app/chess_pieces.dart";
 import "package:chess_app/position.dart";
 
 class Game {
@@ -8,49 +9,59 @@ class Game {
   bool? check;
   bool? checkmate;
 
-  Game(){
+  Game() {
     userTurn = PieceColor.white;
     turn = 0;
     check = false;
     checkmate;
   }
 
-  bool determine_move(ChessPiece movedPiece, Position position){
+  bool determine_move(ChessPiece movedPiece, Position position) {
     if (movedPiece.color != userTurn) return false;
-    
+    bool validMove;
+
     switch (movedPiece.type) {
       case PieceType.bishop:
-        print("gets bishop");
-        return isBishopValid(movedPiece, position);
+        validMove = isBishopValid(movedPiece, position);
+        return validMove;
       case PieceType.pawn:
-        return isPawnValid(movedPiece, position);
+        validMove = isPawnValid(movedPiece, position);
+        return validMove;
       case PieceType.rook:
-        print("gets rook");
-        return isRookValid(movedPiece, position);
+        validMove = isRookValid(movedPiece, position);
+        return validMove;
       case PieceType.knight:
         return isKnightValid(movedPiece, position);
       case PieceType.queen:
-        print("gets queen");
         return isQueenValid(movedPiece, position);
       default:
         return false;
     }
   }
 
-  bool? getCheckMate(){
+  bool? getCheckMate() {
     return checkmate;
   }
-  void setCheckMate(bool checkmate){
+
+  void setCheckMate(bool checkmate) {
     this.checkmate = checkmate;
   }
 
-  void toggleTurn(){
-    if (userTurn == PieceColor.white){
+  void toggleTurn() {
+    if (userTurn == PieceColor.white) {
       userTurn = PieceColor.black;
-    } 
-    if (userTurn == PieceColor.black){
+    }
+    else {
       userTurn = PieceColor.white;
       turn++;
+    }
+  }
+
+  void takePiece(Position position) {
+    try {
+      pieces.remove(pieces.firstWhere((p) => p.position == position));
+    } catch (e) {
+      print("No piece found at the given position.");
     }
   }
 }

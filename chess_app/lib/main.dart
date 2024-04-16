@@ -90,6 +90,8 @@ class _ChessBoardState extends State<ChessBoard> {
           },
           onAccept: (movedPiece) {
              setState(() {
+              Position position = Position(row, col);
+              engine.takePiece(position);
               movedPiece.position = Position(row, col);
               engine.toggleTurn();
             });
