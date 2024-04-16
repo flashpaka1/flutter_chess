@@ -1,12 +1,21 @@
 import 'package:chess_app/chess_piece.dart';
 import 'package:chess_app/game_engine.dart';
 import 'package:chess_app/position.dart';
+import 'package:chess_app/services/auth_service.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chess_app/chess_pieces.dart';
+import 'package:chess_app/pages/login_page.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Game engine = Game();
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -15,12 +24,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final stream = AuthService().loggedInStream;
     return MaterialApp(
       title: 'Flutter Chess',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyChessGame(),
+      home: StreamBuilder(
+        stream: stream,
+        builder: (context, snapshot){
+          if(snapshot.hasData && snapshot.data == true){
+            return const MyChessGame();
+          }
+          return const LoginPage();
+        })
     );
   }
 }
@@ -40,6 +57,20 @@ class MyChessGame extends StatelessWidget {
       ),
       body: Center(
         child: ChessBoard(),
+      ),
+      drawer: Drawer(
+       
+        child: SafeArea(
+          child: Column(children: [
+            ListTile(
+              tileColor: Colors.white,
+              title: const Text('sign out'),
+              onTap: (){
+                AuthService().signOut();
+              }
+            )
+          ],)
+        )
       ),
       backgroundColor: const Color.fromARGB(255, 36, 36, 36),
     );

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "330878038421",
+    "project_id": "mobilechess-a8776",
+    "storage_bucket": "mobilechess-a8776.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330878038421:android:b7e5b30cd405b09c76c69c",
+        "android_client_info": {
+          "package_name": "com.example.chess_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330878038421-rvl7d1tt93fam73pscflp7le3nk6vepg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chess_app",
+            "certificate_hash": "c2987f23aa0c488183e05fd09b1b5c507865ece3"
+          }
+        },
+        {
+          "client_id": "330878038421-1lq3gjb99ckku9ulguboisutq1j6aep1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYNE5um8R0OWOfXGIgsm2nRYAfzoa5D4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330878038421-1lq3gjb99ckku9ulguboisutq1j6aep1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330878038421-a8n1f6egss7qa97l947q6f8gqpm8bm76.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chessApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
