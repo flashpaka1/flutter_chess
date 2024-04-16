@@ -16,4 +16,12 @@ class AuthService{
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  void signOut() async {
+    FirebaseAuth.instance.signOut();
+  }
+
+  Stream<User?> get stream => FirebaseAuth.instance.authStateChanges().asBroadcastStream();
+
+  Stream<bool> get loggedInStream => stream.map((user)=> user != null);
 } 
