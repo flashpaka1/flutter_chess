@@ -74,15 +74,12 @@ bool isPawnValid(ChessPiece movedPiece, Position newPosition) {
       }
     }
   }
-
   return isOneStep || isTwoSteps || isCapture;
 }
 
 void promotePawn(ChessPiece movedPiece) {
-  if (movedPiece.color == PieceColor.white && movedPiece.position.row == 0)
-    movedPiece.type == PieceType.queen;
-  if (movedPiece.color == PieceColor.black && movedPiece.position.row == 7)
-    movedPiece.type == PieceType.queen;
+  if (movedPiece.color == PieceColor.white && movedPiece.position.row == 0) movedPiece.type = PieceType.queen;
+  if (movedPiece.color == PieceColor.black && movedPiece.position.row == 7) movedPiece.type = PieceType.queen;
 }
 
 bool isRookValid(ChessPiece movedPiece, Position position) {

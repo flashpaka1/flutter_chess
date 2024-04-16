@@ -94,6 +94,7 @@ class _ChessBoardState extends State<ChessBoard> {
               Position position = Position(row, col);
               engine.takePiece(position);
               movedPiece.position = Position(row, col);
+              if (movedPiece.type == PieceType.pawn) promotePawn(movedPiece);
               engine.toggleTurn();
             });
           },
