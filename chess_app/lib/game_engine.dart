@@ -1,10 +1,11 @@
 import "package:chess_app/chess_piece.dart";
 import 'package:chess_app/chess_methods.dart';
 import "package:chess_app/chess_pieces.dart";
+import "package:chess_app/main.dart";
 import "package:chess_app/position.dart";
 
 class Game {
-  PieceColor? userTurn;
+  PieceColor userTurn = PieceColor.white;
   int turn = 0;
   bool? check;
   bool? checkmate;
@@ -16,7 +17,7 @@ class Game {
     checkmate;
   }
 
-  bool determine_move(ChessPiece movedPiece, Position position) {
+  bool? determine_move(ChessPiece movedPiece, Position position) {
     if (movedPiece.color != userTurn) return false;
     bool validMove;
 

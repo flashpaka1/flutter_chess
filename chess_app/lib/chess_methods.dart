@@ -10,7 +10,6 @@ bool isBishopValid(ChessPiece movedPiece, Position position) {
 
   if(!major && !minor) return false;
 
-
   int rowStep = position.row > movedPiece.position.row ? 1 : -1;
   int colStep = position.col > movedPiece.position.col ? 1 : -1;
 
@@ -68,6 +67,7 @@ bool isPawnValid(ChessPiece movedPiece, Position newPosition) {
     if (pos == newPosition) {
       ChessPiece? opponentPiece =
           pieces.firstWhere((p) => p.position == newPosition);
+      // ignore: unnecessary_null_comparison
       if (opponentPiece != null && opponentPiece.color != movedPiece.color) {
         isCapture = true;
         break;
@@ -141,4 +141,114 @@ ChessPiece? pieceAtPosition(Position position) {
     piece = (p.position == position ? p : null);
   }
   return piece;
+}
+bool? isKingInDiagonalCheck(Position kingPosition, PieceColor kingColor) {
+  var directions = [1, -1]; 
+
+  for (int dRow in directions) {
+    for (int dCol in directions) {
+      int currentRow = kingPosition.row + dRow;
+      int currentCol = kingPosition.col + dCol;
+
+      while (currentRow >= 0 && currentRow < 8 && currentCol >= 0 && currentCol < 8) {
+        ChessPiece? piece = pieceAtPosition(Position(currentRow, currentCol));
+        
+        if (piece != null) {
+          if (piece.color != kingColor && (piece.type == PieceType.bishop || piece.type == PieceType.queen)) {
+            return true;
+          }
+          break; 
+        }
+
+        currentRow += dRow;
+        currentCol += dCol;
+      }
+    }
+  }
+
+  return false;
+}
+
+bool? isKingLongCheck(Position kingPosition, PieceColor kingColor) {
+  List<List<int>> directions = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0]
+  ];
+
+  for (List<int> direction in directions) {
+    int dRow = direction[0];
+    int dCol = direction[1];
+
+    int currentRow = kingPosition.row + dRow;
+    int currentCol = kingPosition.col + dCol;
+
+    while (currentRow >= 0 && currentRow < 8 && currentCol >= 0 && currentCol < 8) {
+      ChessPiece? piece = pieceAtPosition(Position(currentRow, currentCol));
+
+      if (piece != null) {
+        if (piece.color != kingColor && (piece.type == PieceType.rook || piece.type == PieceType.queen)) {
+          return true;
+        }
+        break;
+      }
+
+      currentRow += dRow;
+      currentCol += dCol;
+    }
+  }
+}
+
+bool isKingInPawnCheck(Position kingPosition, PieceColor kingColor) {
+  List<Position> attackPositions;
+
+  if (kingColor == PieceColor.white) {
+    attackPositions = [
+      Position(kingPosition.row - 1, kingPosition.col - 1),
+      Position(kingPosition.row - 1, kingPosition.col + 1)
+    ];
+  } else {
+    attackPositions = [
+      Position(kingPosition.row + 1, kingPosition.col - 1),
+      Position(kingPosition.row + 1, kingPosition.col + 1)
+    ];
+  }
+
+  for (Position attackPosition in attackPositions) {
+    if (attackPosition.row >= 0 && attackPosition.row < 8 &&
+        attackPosition.col >= 0 && attackPosition.col < 8) {
+      ChessPiece? attacker = pieceAtPosition(attackPosition);
+      if (attacker != null && attacker.type == PieceType.pawn && attacker.color != kingColor) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+bool isKingInKnightCheck(Position kingPosition, PieceColor kingColor) {
+  List<Position> potentialThreatPositions = [
+    Position(kingPosition.row + 2, kingPosition.col + 1),
+    Position(kingPosition.row + 2, kingPosition.col - 1),
+    Position(kingPosition.row - 2, kingPosition.col + 1),
+    Position(kingPosition.row - 2, kingPosition.col - 1),
+    Position(kingPosition.row + 1, kingPosition.col + 2),
+    Position(kingPosition.row + 1, kingPosition.col - 2),
+    Position(kingPosition.row - 1, kingPosition.col + 2),
+    Position(kingPosition.row - 1, kingPosition.col - 2)
+  ];
+
+  for (Position threatPosition in potentialThreatPositions) {
+    if (threatPosition.row >= 0 && threatPosition.row < 8 &&
+        threatPosition.col >= 0 && threatPosition.col < 8) {
+      ChessPiece? knight = pieceAtPosition(threatPosition);
+      if (knight != null && knight.type == PieceType.knight && knight.color != kingColor) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

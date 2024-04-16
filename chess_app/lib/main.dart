@@ -1,3 +1,4 @@
+import 'package:chess_app/chess_methods.dart';
 import 'package:chess_app/chess_piece.dart';
 import 'package:chess_app/game_engine.dart';
 import 'package:chess_app/position.dart';
@@ -86,7 +87,7 @@ class _ChessBoardState extends State<ChessBoard> {
         child: DragTarget<ChessPiece>(
           onWillAccept: (ChessPiece? incomingPiece) {
             Position incomingPosition = Position(row, col);
-            return engine.determine_move(incomingPiece!, incomingPosition);
+            return engine.determine_move(incomingPiece!, incomingPosition)!;
           },
           onAccept: (movedPiece) {
              setState(() {
