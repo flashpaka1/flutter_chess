@@ -1,7 +1,6 @@
 import "package:chess_app/chess_piece.dart";
 import 'package:chess_app/chess_methods.dart';
 import "package:chess_app/chess_pieces.dart";
-import "package:chess_app/main.dart";
 import "package:chess_app/position.dart";
 
 class Game {
@@ -60,7 +59,9 @@ class Game {
 
   void takePiece(Position position) {
     try {
-      pieces.remove(pieces.firstWhere((p) => p.position == position));
+      ChessPiece piece = pieces.firstWhere((p) => p.position == position);
+      checkmate = piece.type == PieceType.king ? true : false;
+      pieces.remove(piece);
     } catch (e) {
       print("No piece found at the given position.");
     }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:chess_app/chess_pieces.dart';
 
 Game engine = Game();
+String titleText = "Chess 2";
 
 void main() {
   runApp(const MyApp());
@@ -33,8 +34,8 @@ class MyChessGame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Don\'t Lose', 
+        title: Text(
+          titleText, 
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color.fromARGB(255, 36, 36, 36),
@@ -86,6 +87,10 @@ class _ChessBoardState extends State<ChessBoard> {
       return Expanded(
         child: DragTarget<ChessPiece>(
           onWillAccept: (ChessPiece? incomingPiece) {
+            if (engine.checkmate == true) {
+              changeTitle();
+              return false;
+            }
             Position incomingPosition = Position(row, col);
             return engine.determine_move(incomingPiece!, incomingPosition)!;
           },
@@ -144,4 +149,9 @@ class _ChessBoardState extends State<ChessBoard> {
       String typeName = piece.type.toString().split('.').last;
       return 'assets/$color-$typeName.png';
     }
+}
+
+void changeTitle(){
+  if(engine.checkmate == false) titleText = "Chess 2";
+  titleText = engine.userTurn == PieceColor.white ? "White Wins!" : "Black Wins!";
 }
