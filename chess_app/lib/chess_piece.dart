@@ -1,7 +1,7 @@
 import "package:chess_app/position.dart";
 
 class ChessPiece {
-  final PieceType type;
+  PieceType type;
   final PieceColor color;
   Position position;
 

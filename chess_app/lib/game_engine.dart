@@ -1,32 +1,69 @@
 import "package:chess_app/chess_piece.dart";
 import 'package:chess_app/chess_methods.dart';
+import "package:chess_app/chess_pieces.dart";
 import "package:chess_app/position.dart";
 
 class Game {
-  PieceColor? userTurn;
-  int? turn;
+  PieceColor userTurn = PieceColor.white;
+  int turn = 0;
   bool? check;
   bool? checkmate;
 
-  Game(){
+  Game() {
     userTurn = PieceColor.white;
     turn = 0;
     check = false;
     checkmate;
   }
 
-  bool determine_move(ChessPiece movedPiece, Position position){
-    if (movedPiece.color == userTurn){
-      if (movedPiece.type == PieceType.bishop) return isBishopValid(movedPiece, position);
-      if (movedPiece.type == PieceType.pawn) return isPawnValid(movedPiece, position);
+  bool? determine_move(ChessPiece movedPiece, Position position) {
+    if (movedPiece.color != userTurn) return false;
+    bool validMove;
+
+    switch (movedPiece.type) {
+      case PieceType.bishop:
+        validMove = isBishopValid(movedPiece, position);
+        return validMove;
+      case PieceType.pawn:
+        validMove = isPawnValid(movedPiece, position);
+        return validMove;
+      case PieceType.rook:
+        validMove = isRookValid(movedPiece, position);
+        return validMove;
+      case PieceType.knight:
+        return isKnightValid(movedPiece, position);
+      case PieceType.queen:
+        return isQueenValid(movedPiece, position);
+      default:
+        return false;
     }
-    return false;
   }
 
-  bool? getCheckMate(){
+  bool? getCheckMate() {
     return checkmate;
   }
-  void setCheckMate(bool checkmate){
+
+  void setCheckMate(bool checkmate) {
     this.checkmate = checkmate;
+  }
+
+  void toggleTurn() {
+    if (userTurn == PieceColor.white) {
+      userTurn = PieceColor.black;
+    }
+    else {
+      userTurn = PieceColor.white;
+      turn++;
+    }
+  }
+
+  void takePiece(Position position) {
+    try {
+      ChessPiece piece = pieces.firstWhere((p) => p.position == position);
+      checkmate = piece.type == PieceType.king ? true : false;
+      pieces.remove(piece);
+    } catch (e) {
+      print("No piece found at the given position.");
+    }
   }
 }
