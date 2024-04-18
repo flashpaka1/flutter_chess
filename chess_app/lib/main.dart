@@ -3,15 +3,19 @@ import 'package:chess_app/chess_piece.dart';
 import 'package:chess_app/game_engine.dart';
 import 'package:chess_app/position.dart';
 import 'package:chess_app/services/auth_service.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chess_app/chess_pieces.dart';
 import 'package:chess_app/pages/login_page.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:chess_app/services/auth_service.dart';
+
 
 Game engine = Game();
-String titleText = "Chess 2";
+String titleText = "Chess 2 ${FirebaseAuth.instance.currentUser!.displayName}";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -183,6 +187,6 @@ class _ChessBoardState extends State<ChessBoard> {
 }
 
 void changeTitle(){
-  if(engine.checkmate == false) titleText = "Chess 2";
+  if(engine.checkmate == false) titleText = "Chess 2  ${FirebaseAuth.instance.currentUser!.displayName}";
   titleText = engine.userTurn == PieceColor.white ? "White Wins!" : "Black Wins!";
 }
